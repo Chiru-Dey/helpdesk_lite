@@ -39,6 +39,7 @@ def create_app(config_class=Config):
     from .api.auth import auth_bp
     from .api.categories import categories_bp
     from .api.comments import comments_bp
+    from .api.dashboard import dashboard_bp
     from .api.health import health_bp
     from .api.tickets import tickets_bp
 
@@ -46,6 +47,7 @@ def create_app(config_class=Config):
     app.register_blueprint(auth_bp, url_prefix="/api")
     app.register_blueprint(categories_bp, url_prefix="/api")
     app.register_blueprint(comments_bp, url_prefix="/api")
+    app.register_blueprint(dashboard_bp, url_prefix="/api")
     app.register_blueprint(tickets_bp, url_prefix="/api")
 
     return app
