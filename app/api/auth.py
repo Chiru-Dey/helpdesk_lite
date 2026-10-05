@@ -28,6 +28,13 @@ def error_response(message, status_code):
     return jsonify(error=message), status_code
 
 
+def issue_token(user):
+    if not user.api_token:
+        user.generate_api_token()
+        db.session.commit()
+    return user.api_token
+
+
 @auth_bp.post("/auth/register")
 def register():
     if current_user.is_authenticated:
@@ -74,8 +81,9 @@ def register():
     db.session.commit()
 
     login_user(user)
+    token = issue_token(user)
 
-    return jsonify(message="Registration successful.", user=user.to_dict()), 201
+    return jsonify(message="Registration successful.", user=user.to_dict(), token=token), 201
 
 
 @auth_bp.post("/auth/login")
@@ -108,8 +116,9 @@ def login():
         return error_response("Your account is inactive.", 403)
 
     login_user(user)
+    token = issue_token(user)
 
-    return jsonify(message="Login successful.", user=user.to_dict())
+    return jsonify(message="Login successful.", user=user.to_dict(), token=token)
 
 
 @auth_bp.post("/auth/logout")
@@ -124,3 +133,12 @@ def logout():
 @login_required
 def me():
     return jsonify(user=current_user.to_dict())
+
+
+@auth_bp.post("/auth/token/regenerate")
+@login_required
+def regenerate_token():
+    token = current_user.generate_api_token()
+    db.session.commit()
+
+    return jsonify(message="API token regenerated.", token=token)

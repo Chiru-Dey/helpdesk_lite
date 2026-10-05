@@ -1,5 +1,7 @@
-import bcrypt
+import secrets
 from datetime import datetime, timezone
+
+import bcrypt
 from flask_login import UserMixin
 
 from ..extensions import db
@@ -30,6 +32,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(255), nullable=False)
     name = db.Column(db.String(255), nullable=False)
     active = db.Column(db.Boolean(), default=True)
+    api_token = db.Column(db.String(64), unique=True, nullable=True, index=True)
     created_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
     roles = db.relationship("Role", secondary=roles_users, backref=db.backref("users", lazy="dynamic"))
@@ -39,6 +42,10 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return bcrypt.checkpw(password.encode("utf-8"), self.password_hash.encode("utf-8"))
+
+    def generate_api_token(self):
+        self.api_token = secrets.token_hex(32)
+        return self.api_token
 
     def has_role(self, role_name):
         return any(r.name == role_name for r in self.roles)
