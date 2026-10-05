@@ -34,15 +34,18 @@ def create_app(config_class=Config):
         supports_credentials=True,
     )
 
-    # Import models so Flask-Migrate can detect them
     from . import models  # noqa: F401
 
     from .api.auth import auth_bp
     from .api.categories import categories_bp
+    from .api.comments import comments_bp
     from .api.health import health_bp
+    from .api.tickets import tickets_bp
 
     app.register_blueprint(health_bp, url_prefix="/api")
     app.register_blueprint(auth_bp, url_prefix="/api")
     app.register_blueprint(categories_bp, url_prefix="/api")
+    app.register_blueprint(comments_bp, url_prefix="/api")
+    app.register_blueprint(tickets_bp, url_prefix="/api")
 
     return app
