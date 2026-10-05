@@ -8,6 +8,7 @@ import DashboardView from '../views/DashboardView.vue'
 import TicketsView from '../views/TicketsView.vue'
 import TicketCreateView from '../views/TicketCreateView.vue'
 import TicketDetailView from '../views/TicketDetailView.vue'
+import AdminUsersView from '../views/AdminUsersView.vue'
 
 const routes = [
   { path: '/', name: 'home', component: HomeView },
@@ -36,6 +37,12 @@ const routes = [
     name: 'ticket-detail',
     component: TicketDetailView,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/admin/users',
+    name: 'admin-users',
+    component: AdminUsersView,
+    meta: { requiresAuth: true, roles: ['admin'] }
   },
 ]
 

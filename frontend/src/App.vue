@@ -6,6 +6,7 @@
       <template v-if="auth.user">
         <router-link to="/tickets">Tickets</router-link>
         <router-link v-if="hasRole('admin', 'agent')" to="/dashboard">Dashboard</router-link>
+        <router-link v-if="hasRole('admin')" to="/admin/users">Users</router-link>
       </template>
 
       <div class="navbar-spacer"></div>
