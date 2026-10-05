@@ -6,21 +6,35 @@ import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import TicketsView from '../views/TicketsView.vue'
+import TicketCreateView from '../views/TicketCreateView.vue'
+import TicketDetailView from '../views/TicketDetailView.vue'
 
 const routes = [
   { path: '/', name: 'home', component: HomeView },
   { path: '/login', name: 'login', component: LoginView },
   { path: '/register', name: 'register', component: RegisterView },
-  { 
-    path: '/dashboard', 
-    name: 'dashboard', 
+  {
+    path: '/dashboard',
+    name: 'dashboard',
     component: DashboardView,
     meta: { requiresAuth: true, roles: ['admin', 'agent'] }
   },
-  { 
-    path: '/tickets', 
-    name: 'tickets', 
+  {
+    path: '/tickets',
+    name: 'tickets',
     component: TicketsView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/tickets/new',
+    name: 'ticket-create',
+    component: TicketCreateView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/tickets/:id',
+    name: 'ticket-detail',
+    component: TicketDetailView,
     meta: { requiresAuth: true }
   },
 ]
@@ -32,20 +46,17 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
   const auth = useAuthStore()
-  
-  // If we don't have a user in state, try to fetch from cookie session
+
   if (!auth.user && !auth.loading) {
     await auth.fetchUser()
   }
 
-  // If route requires auth and we have no user, redirect to login
   if (to.meta.requiresAuth && !auth.user) {
     return { name: 'login' }
   }
 
-  // If route requires specific roles, check them
   if (to.meta.roles && auth.user) {
-    const hasRole = to.meta.roles.some(role => 
+    const hasRole = to.meta.roles.some(role =>
       auth.user.roles.some(r => r.name === role)
     )
     if (!hasRole) {

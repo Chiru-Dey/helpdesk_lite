@@ -1,25 +1,25 @@
 <template>
-  <div id="app" style="font-family: sans-serif;">
-    <nav style="background: #f4f4f4; padding: 1rem; display: flex; gap: 1.5rem; align-items: center; border-bottom: 1px solid #ddd;">
-      <router-link to="/" style="text-decoration: none; font-weight: bold; color: #333;">HelpDesk Lite</router-link>
-      
+  <div id="app">
+    <nav class="navbar">
+      <router-link to="/" class="navbar-brand">HelpDesk Lite</router-link>
+
       <template v-if="auth.user">
-        <router-link to="/tickets" style="text-decoration: none; color: #555;">Tickets</router-link>
-        <router-link to="/dashboard" v-if="hasRole('admin', 'agent')" style="text-decoration: none; color: #555;">Dashboard</router-link>
+        <router-link to="/tickets">Tickets</router-link>
+        <router-link v-if="hasRole('admin', 'agent')" to="/dashboard">Dashboard</router-link>
       </template>
 
-      <div style="margin-left: auto; display: flex; gap: 1rem; align-items: center;">
-        <template v-if="auth.user">
-          <span style="color: #666;">Hello, {{ auth.user.name }}</span>
-          <button @click="handleLogout" style="cursor: pointer;">Logout</button>
-        </template>
-        <template v-else>
-          <router-link to="/login" style="text-decoration: none; color: #0066cc;">Login</router-link>
-          <router-link to="/register" style="text-decoration: none; color: #0066cc;">Register</router-link>
-        </template>
-      </div>
+      <div class="navbar-spacer"></div>
+
+      <template v-if="auth.user">
+        <span class="navbar-user">Hello, {{ auth.user.name }}</span>
+        <button class="btn btn-secondary" @click="handleLogout">Logout</button>
+      </template>
+      <template v-else>
+        <router-link to="/login">Login</router-link>
+        <router-link to="/register">Register</router-link>
+      </template>
     </nav>
-    <main style="padding: 2rem;">
+    <main>
       <router-view />
     </main>
   </div>
