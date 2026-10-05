@@ -60,7 +60,7 @@ a {
 }
 
 main {
-  max-width: 960px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 2rem 1.5rem;
 }
@@ -143,6 +143,15 @@ main {
 .btn-secondary:hover {
   background: #eef1f4;
   color: var(--text);
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: #ffffff;
+}
+
+.btn-danger:hover {
+  background: #b92c2c;
 }
 
 .alert-error {
@@ -350,4 +359,100 @@ main {
 .comment p {
   margin: 0;
   white-space: pre-wrap;
+}
+
+/* Dashboard specific styles */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0.5rem 0;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.text-blue { color: #1d4ed8; }
+.text-yellow { color: #92600a; }
+.text-green { color: #177245; }
+.text-gray { color: #4b5563; }
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bar-chart {
+  margin-top: 1rem;
+}
+
+.bar-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  gap: 1rem;
+}
+
+.bar-label {
+  width: 100px;
+  font-size: 0.9rem;
+  text-transform: capitalize;
+}
+
+.bar-track {
+  flex: 1;
+  background: #eef1f4;
+  height: 20px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+
+.bar-fill-open { background: #1d4ed8; }
+.bar-fill-in_progress { background: #92600a; }
+.bar-fill-resolved { background: #177245; }
+.bar-fill-closed { background: #4b5563; }
+
+.bar-fill-priority-low { background: #4b5563; }
+.bar-fill-priority-medium { background: #1d4ed8; }
+.bar-fill-priority-high { background: #b3400f; }
+.bar-fill-priority-urgent { background: #b31212; }
+
+.bar-count {
+  width: 30px;
+  text-align: right;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
